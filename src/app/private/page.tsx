@@ -4,11 +4,24 @@ import Image from "next/image";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { MapPin, Music, Coffee, Camera, Mountain, Wind } from "lucide-react";
+import dynamic from 'next/dynamic';
+
+// Dynamic imports using default exports to avoid React Client Manifest errors
+const WeatherWidget = dynamic(() => import('@/components/ui/WeatherWidget'), {
+    ssr: false,
+    loading: () => <div className="h-48 bg-white/50 rounded-2xl animate-pulse" />
+});
+const SkillRadar = dynamic(() => import('@/components/ui/SkillRadar'), {
+    ssr: false,
+    loading: () => <div className="h-64 bg-white/50 rounded-2xl animate-pulse" />
+});
+const ZenMode = dynamic(() => import('@/components/ui/ZenMode'), { ssr: false });
 
 export default function PrivatePage() {
     return (
         <main className="bg-paper min-h-screen">
             <Navigation />
+            <ZenMode />
 
             <div className="pt-24 md:pt-32">
                 <Gate title="Basecamp Alpha" description="Restricted Access. Authorization Required.">
@@ -46,49 +59,37 @@ export default function PrivatePage() {
                         </div>
                     </Section>
 
-                    {/* Status Grid (Static Version) */}
+                    {/* Experimental Grid */}
                     <Section className="pb-12">
                         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                            {/* Card 1: Static Weather / Location */}
-                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-ink/5 space-y-4">
-                                <div className="flex items-center gap-3 text-accent-nature">
-                                    <MapPin size={20} />
-                                    <h3 className="font-semibold uppercase tracking-wider text-xs">Current Location</h3>
-                                </div>
-                                <p className="font-serif text-2xl">Jens, Bern</p>
-                                <div className="h-1 w-full bg-paper rounded-full overflow-hidden">
-                                    <div className="h-full bg-accent-nature w-3/4" />
-                                </div>
-                                <p className="text-xs text-ink/40 font-mono">Status: Online & Caffeinated</p>
+                            {/* Widget 1: Live Weather */}
+                            <WeatherWidget />
+
+                            {/* Widget 2: Skill Radar */}
+                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-ink/5 space-y-4 flex flex-col items-center">
+                                <h3 className="text-xs uppercase tracking-widest text-accent-nature font-semibold mb-2 self-start w-full">Life Metrics</h3>
+                                <SkillRadar />
                             </div>
 
-                            {/* Card 2: Static Skill/Interests */}
-                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-ink/5 space-y-4">
-                                <div className="flex items-center gap-3 text-accent-nature">
-                                    <Music size={20} />
-                                    <h3 className="font-semibold uppercase tracking-wider text-xs">Heavy Rotation</h3>
+                            {/* Widget 3: Location / Status */}
+                            <div className="bg-ink text-paper p-6 rounded-2xl shadow-sm border border-ink/5 flex flex-col justify-between relative overflow-hidden">
+                                <div className="z-10 flex gap-4 items-center">
+                                    <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-white/20 flex-shrink-0">
+                                        <Image src="/images/private-portrait.jpg" alt="Stefan Portrait" fill className="object-cover" />
+                                    </div>
+                                    <div>
+                                        <p className="text-xs text-white/60 uppercase tracking-wider">Status</p>
+                                        <p className="font-serif text-lg italic">Exploring AI Agents</p>
+                                    </div>
                                 </div>
-                                <p className="font-serif text-2xl">Hans Zimmer</p>
-                                <p className="text-sm text-ink/60">Interstellar OST</p>
-                                <div className="flex gap-1 mt-2">
-                                    {[1, 2, 3, 4, 2, 5, 3].map((h, i) => (
-                                        <div key={i} className="w-1 bg-accent-nature/30 rounded-full" style={{ height: `${h * 4}px` }} />
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Card 3: Portrait */}
-                            <div className="bg-ink text-paper p-6 rounded-2xl shadow-sm border border-ink/5 flex items-center gap-6 relative overflow-hidden">
-                                <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-white/20 flex-shrink-0">
-                                    <Image src="/images/private-portrait.jpg" alt="Stefan Portrait" fill className="object-cover" />
-                                </div>
-                                <div className="z-10">
-                                    <p className="text-sm text-white/60">Profile</p>
-                                    <p className="font-serif text-xl italic">Stefan B.</p>
+                                <div className="z-10 mt-6">
+                                    <div className="flex items-center gap-2 text-white/80 text-sm">
+                                        <MapPin size={14} /> Jens, Bern
+                                    </div>
                                 </div>
                                 <div className="absolute right-0 top-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
-                                    <Wind size={100} />
+                                    <Wind size={120} />
                                 </div>
                             </div>
 
