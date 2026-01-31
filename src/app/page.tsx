@@ -84,9 +84,11 @@ export default function Home() {
                             </div>
                         </div>
                         <div className="pt-8">
-                            <Button variant="primary" className="w-full border-white/20 text-white hover:bg-white/10 hover:border-white/40">
-                                Get in Touch
-                            </Button>
+                            <a href="mailto:steee.bieri@gmail.com">
+                                <Button variant="primary" className="w-full border-white/20 text-white hover:bg-white/10 hover:border-white/40">
+                                    Get in Touch
+                                </Button>
+                            </a>
                         </div>
                     </div>
 

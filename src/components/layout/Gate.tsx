@@ -8,22 +8,40 @@ import { motion } from "framer-motion";
 interface GateProps {
     title: string;
     description?: string;
+    children?: React.ReactNode;
 }
 
-export function Gate({ title, description }: GateProps) {
+export function Gate({ title, description, children }: GateProps) {
     const [password, setPassword] = useState("");
+    const [isUnlocked, setIsUnlocked] = useState(false);
     const [error, setError] = useState(false);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO: Real auth. For now just mock.
-        if (password === "demo") {
-            alert("Access granted (Mock)");
+        // Client-side gate
+        if (password === "13.11.1982") {
+            setIsUnlocked(true);
         } else {
             setError(true);
             setTimeout(() => setError(false), 2000);
         }
     };
+
+    if (isUnlocked && children) {
+        return <>{children}</>;
+    }
+
+    // Fallback if unlocked but no children
+    if (isUnlocked && !children) {
+        return (
+            <Section className="min-h-[60vh] flex flex-col items-center justify-center">
+                <div className="text-center space-y-4">
+                    <h2 className="text-2xl font-serif italic text-accent-nature">Access Granted.</h2>
+                    <p className="text-ink/60">No content provided for this section yet.</p>
+                </div>
+            </Section>
+        )
+    }
 
     return (
         <Section className="min-h-[60vh] flex flex-col items-center justify-center">
@@ -48,7 +66,7 @@ export function Gate({ title, description }: GateProps) {
                         />
                         {error && (
                             <span className="absolute -bottom-6 left-0 text-xs text-red-500 animate-pulse">
-                                Incorrect password (try 'demo')
+                                Incorrect password
                             </span>
                         )}
                     </div>
