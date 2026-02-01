@@ -21,7 +21,7 @@ export default function PrivatePage() {
     return (
         <main className="bg-paper min-h-screen">
             <Navigation />
-            <ZenMode />
+            {/* <ZenMode /> */}
 
             <div className="pt-24 md:pt-32">
                 <Gate title="Basecamp Alpha" description="Restricted Access. Authorization Required.">
@@ -66,10 +66,13 @@ export default function PrivatePage() {
                             {/* Widget 1: Live Weather */}
                             <WeatherWidget />
 
-                            {/* Widget 2: Skill Radar */}
-                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-ink/5 space-y-4 flex flex-col items-center">
+                            {/* Widget 2: Skill Radar (Disabled for Mobile Debugging) */}
+                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-ink/5 space-y-4 flex flex-col items-center opacity-50">
                                 <h3 className="text-xs uppercase tracking-widest text-accent-nature font-semibold mb-2 self-start w-full">Life Metrics</h3>
-                                <SkillRadar />
+                                <div className="h-64 w-full flex items-center justify-center text-xs text-ink/40 font-mono border border-dashed border-ink/10 rounded-xl">
+                                    [Visualization Paused]
+                                </div>
+                                {/* <SkillRadar /> */}
                             </div>
 
                             {/* Widget 3: Location / Status */}

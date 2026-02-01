@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
@@ -16,10 +16,18 @@ export function Gate({ title, description, children }: GateProps) {
     const [isUnlocked, setIsUnlocked] = useState(false);
     const [error, setError] = useState(false);
 
+    useEffect(() => {
+        const cached = sessionStorage.getItem("gate_unlocked");
+        if (cached === "true") {
+            setIsUnlocked(true);
+        }
+    }, []);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // Client-side gate
         if (password === "13.11.1982") {
+            sessionStorage.setItem("gate_unlocked", "true");
             setIsUnlocked(true);
         } else {
             setError(true);
