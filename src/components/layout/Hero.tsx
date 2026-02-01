@@ -1,10 +1,16 @@
 "use client";
-import { motion } from "framer-motion";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { Section } from "@/components/ui/Section";
 import { OrganicDigitalAnimation } from "@/components/ui/OrganicDigitalAnimation";
 
-export function Hero() {
+interface HeroProps {
+    headline?: string;
+    subheadline?: string;
+}
+
+export function Hero({ headline, subheadline }: HeroProps) {
     return (
         <div className="relative min-h-[90vh] flex items-center overflow-hidden">
             <OrganicDigitalAnimation />
@@ -24,13 +30,19 @@ export function Hero() {
                         </span>
                     </div>
 
-                    <h1 className="font-serif text-5xl md:text-7xl italic text-ink leading-tight">
-                        Cultivating <br />
-                        <span className="not-italic font-light opacity-60">Digital Calm.</span>
+                    <h1 className="font-serif text-5xl md:text-7xl italic leading-tight text-aurora pb-2">
+                        {headline ? (
+                            <span dangerouslySetInnerHTML={{ __html: headline }} />
+                        ) : (
+                            <>
+                                Cultivating <br />
+                                <span className="not-italic font-light opacity-60 text-ink">Digital Calm.</span>
+                            </>
+                        )}
                     </h1>
 
                     <p className="text-lg text-ink/70 max-w-md leading-relaxed">
-                        I build systems that breathe. Bridging the gap between organic complexity and digital precision.
+                        {subheadline || "I build systems that breathe. Bridging the gap between organic complexity and digital precision."}
                     </p>
                 </motion.div>
 
